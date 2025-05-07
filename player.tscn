@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://c8f04idkbdp5"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_cqswa"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_evbaf"]
+size = Vector3(0.5, 0.75, 0.5)
+
+[node name="player" type="CharacterBody3D"]
+script = ExtResource("1_cqswa")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_evbaf")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.212738, 0)
+current = true
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
