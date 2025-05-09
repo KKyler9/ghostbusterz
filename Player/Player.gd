@@ -8,11 +8,23 @@ extends CharacterBody3D
 
 
 const SPEED := 5.0
-const SPRINT_MULTIPLIER := 1.8
-const JUMP_VELOCITY := 4.5
+const SPRINT_MULTIPLIER := 3.0
+const JUMP_VELOCITY := 5.5
 const MOUSE_SENSITIVITY := 0.1
+const CROUCH_MULTIPLIER := 0.5
+const SLIDE_DURATION := 0.6
+const GRAVITY := 14.0
+const FALL_MULTIPLIER := 2.5
+const ACCELERATION := 16.0
+const DECELERATION := 20.0
+
 
 var is_sprinting := false
+var is_crouching := false
+var is_sliding := false
+var slide_timer := 0.0
+var target_velocity := Vector3.ZERO
+
 var yaw := 0.0
 var pitch := 0.0
 var money: int = 0
@@ -56,56 +68,65 @@ func _unhandled_input(event):
 		rotation_degrees.y = yaw
 		head.rotation_degrees.x = pitch
 
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_MIDDLE and event.pressed:
-		flashlight.visible = !flashlight.visible
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_MIDDLE and event.pressed:
+			flashlight.visible = !flashlight.visible
+
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed and Input.is_action_pressed("vacuum"):
+			attempt_vacuum()
+
+		if event.button_index == MOUSE_BUTTON_RIGHT and event.pressed and Input.is_action_pressed("loot"):
+			attempt_vacuum()
+
 
 # Handle player movement and physics
 func _physics_process(delta):
-	var direction = Vector3.ZERO
+	var input_dir = Vector3.ZERO
 
-	# Movement input
+	# WASD movement inputs
 	if Input.is_action_pressed("move_forward"):
-		direction -= transform.basis.z
+		input_dir -= transform.basis.z
 	if Input.is_action_pressed("move_back"):
-		direction += transform.basis.z
+		input_dir += transform.basis.z
 	if Input.is_action_pressed("move_left"):
-		direction -= transform.basis.x
+		input_dir -= transform.basis.x
 	if Input.is_action_pressed("move_right"):
-		direction += transform.basis.x
+		input_dir += transform.basis.x
 
-	direction = direction.normalized()
-	var is_moving = direction.length() > 0.01
-	var sprint_input = Input.is_action_pressed("sprint")
+	input_dir = input_dir.normalized()
+
+	# Sprinting logic
+    var sprint_input = Input.is_action_pressed("sprint")
+	is_sprinting = sprint_input and stamina.can_sprint()
+	var target_speed = SPEED * (SPRINT_MULTIPLIER if is_sprinting else 1.0)
+	var target_velocity = input_dir * target_speed
 
 	# Update stamina before applying sprint
 	stamina.update(delta, sprint_input, is_moving)
-
-	# Sprint if input is held, stamina allows it, and you're moving
-	is_sprinting = sprint_input and stamina.can_sprint() and is_moving
-
+	# Apply acceleration/deceleration for horizontal movement
+	if input_dir == Vector3.ZERO:
+		velocity.x = move_toward(velocity.x, 0, DECELERATION * delta)
+		velocity.z = move_toward(velocity.z, 0, DECELERATION * delta)
+	else:
+		velocity.x = move_toward(velocity.x, target_velocity.x, ACCELERATION * delta)
+		velocity.z = move_toward(velocity.z, target_velocity.z, ACCELERATION * delta)
 	# Update HUD stamina bar
 	if hud:
 		hud.update_stamina(round(stamina.current_stamina_percent() * 100.0) / 100.0)
 
-	# Determine speed based on sprint state
-	var speed = SPEED * (SPRINT_MULTIPLIER if is_sprinting else 1.0)
-
-	# Apply movement
-	velocity.x = direction.x * speed
-	velocity.z = direction.z * speed
-
-	# Gravity & jumping
-	if not is_on_floor():
-		velocity.y -= 9.8 * delta
-	elif Input.is_action_just_pressed("jump"):
-		velocity.y = JUMP_VELOCITY
+	# Handle jumping and gravity
+	if is_on_floor():
+		if Input.is_action_just_pressed("jump"):
+			velocity.y = JUMP_VELOCITY
+	else:
+		var fall_gravity = GRAVITY
+		if velocity.y < 0:
+			fall_gravity *= FALL_MULTIPLIER
+		elif abs(velocity.y) < 1 and input_dir.length() > 0:
+			fall_gravity *= 0.6  # glide when jumping and moving
+		velocity.y -= fall_gravity * delta
 
 	move_and_slide()
-
-	# Vacuum or loot check
-	if Input.is_action_pressed("vacuum") or Input.is_action_pressed("loot"):
-		attempt_vacuum()
-
 
 # Function for vacuum interaction
 func attempt_vacuum():
