@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=3 uid="uid://dx5uv30861feo"]
+
+[ext_resource type="PackedScene" uid="uid://37ae4hgkfr5p" path="res://Scenes/GhostSpawner.tscn" id="2_exwnq"]
+[ext_resource type="PackedScene" uid="uid://br8v0ycux3qpo" path="res://Test Objects/house_test.tscn" id="3_eqbnc"]
+[ext_resource type="PackedScene" uid="uid://bpwmayi8hq7hj" path="res://Scenes/lootable_spawner.tscn" id="4_a4k3g"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_xtv6o"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_iualk"]
+
+[node name="Playground" type="Node3D"]
+
+[node name="SpawnPoint" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.26578, 3.0232)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("WorldBoundaryShape3D_xtv6o")
+debug_fill = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+transform = Transform3D(44.7309, 0, 0, 0, 1, 0, 0, 0, 52.1913, 0, 0, 0)
+mesh = SubResource("PlaneMesh_iualk")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.2947, 0)
+
+[node name="GhostSpawner" parent="." instance=ExtResource("2_exwnq")]
+transform = Transform3D(19.684, 0, 0, 0, 1, 0, 0, 0, 23.9085, 0, 0, 0)
+
+[node name="HouseTest" parent="." instance=ExtResource("3_eqbnc")]
+transform = Transform3D(-0.225538, 0, 8.74709, 0, 8.75, 0, -8.74709, 0, -0.225538, 66.2572, -0.749727, 23.9454)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.021431, 0.99977, 0, -0.99977, 0.021431, 47.3089, 7.06206, -1.23733)
+light_energy = 1.145
+light_size = 0.32
+light_specular = 2.83
+spot_range = 14.2239
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.948506, 0.316758, 0, -0.316758, -0.948506, 0, 13.3688, 0)
+
+[node name="LootableSpawner" parent="." instance=ExtResource("4_a4k3g")]
+transform = Transform3D(1.21, 0, 0, 0, 1.21, 0, 0, 0, 1.21, 0, 0, 0)

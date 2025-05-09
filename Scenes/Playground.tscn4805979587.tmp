@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://dx5uv30861feo"]
+
+[ext_resource type="Script" uid="uid://bko6jerk2s7ac" path="res://Scenes/world.gd" id="1_iualk"]
+[ext_resource type="PackedScene" path="res://Scenes/GhostSpawner.tscn" id="2_exwnq"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_xtv6o"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_iualk"]
+
+[node name="Playground" type="Node3D"]
+script = ExtResource("1_iualk")
+
+[node name="SpawnPoint" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.26578, 3.0232)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("WorldBoundaryShape3D_xtv6o")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+transform = Transform3D(44.7309, 0, 0, 0, 1, 0, 0, 0, 52.1913, 0, 0, 0)
+mesh = SubResource("PlaneMesh_iualk")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.2947, 0)
+
+[node name="GhostSpawner" parent="." instance=ExtResource("2_exwnq")]
+transform = Transform3D(19.684, 0, 0, 0, 1, 0, 0, 0, 23.9085, 0, 0, 0)

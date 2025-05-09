@@ -1,0 +1,18 @@
+[gd_scene load_steps=6 format=3 uid="uid://bpwmayi8hq7hj"]
+
+[ext_resource type="Script" uid="uid://xonkabetrb3" path="res://Loot/LootableSpawner.gd" id="1_a4npx"]
+[ext_resource type="PackedScene" uid="uid://0yakp518v4jt" path="res://Loot/Coin.tscn" id="2_yo1t0"]
+[ext_resource type="PackedScene" uid="uid://bbttg2myndi1u" path="res://Loot/Trophy_1.tscn" id="3_nkpe7"]
+[ext_resource type="PackedScene" uid="uid://bivxr4f4cpmm6" path="res://Loot/Trophy_2.tscn" id="4_hkwm2"]
+[ext_resource type="PackedScene" uid="uid://benobcpxmo2yi" path="res://Loot/Trophy_3.tscn" id="5_v7vs4"]
+
+[node name="LootableSpawner" type="Node3D" node_paths=PackedStringArray("spawn_points")]
+script = ExtResource("1_a4npx")
+lootable_scenes = Array[PackedScene]([ExtResource("3_nkpe7"), ExtResource("4_hkwm2"), ExtResource("5_v7vs4"), ExtResource("2_yo1t0")])
+spawn_points = [NodePath("CoinSpawn"), NodePath("TrophySpawn")]
+
+[node name="CoinSpawn" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.9063, 0.413296, -13.8274)
+
+[node name="TrophySpawn" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.6949, 1.88673, 23.4846)
