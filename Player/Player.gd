@@ -32,7 +32,10 @@ func add_money(amount: int):
 func add_elimination():
 	eliminations += 1
 	print("Eliminations: ", eliminations)
-	hud.update_eliminations(eliminations)
+	if hud:
+		hud.update_eliminations(eliminations)
+	else:
+		push_warning("HUD is not available.")
 	
 # Lock the mouse to the window at the start
 func _ready():
@@ -41,10 +44,8 @@ func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	flashlight.visible = false
 	
-	# Assign HUD here
-	hud = get_tree().current_scene.get_node_or_null("HUD")
-	if hud == null:
-		push_warning("HUD node not found. HUD updates will not work.")
+	# Find HUD in the scene tree
+	hud = get_tree().root.get_node("MainScene/SubViewportContainerHUD/HUDViewport/HUD")
 
 # Update yaw and pitch based on mouse movement
 func _unhandled_input(event):
@@ -76,6 +77,10 @@ func _physics_process(delta):
 	# Handle sprinting and stamina
 	is_sprinting = input.is_action_pressed("sprint") and stamina.can_sprint()
 	stamina.update(delta, is_sprinting)
+	
+	if hud:
+		hud.update_stamina(stamina.current_stamina_percent())
+
 
 	# Normalize direction for consistent movement speed
 	direction = direction.normalized()
