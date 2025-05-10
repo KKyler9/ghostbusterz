@@ -62,46 +62,50 @@ func _unhandled_input(event):
 # Handle player movement and physics
 func _physics_process(delta):
 	var direction = Vector3.ZERO
-	var input = Input
 
-	# Check for player movement inputs
-	if input.is_action_pressed("move_forward"):
+	# Movement input
+	if Input.is_action_pressed("move_forward"):
 		direction -= transform.basis.z
-	if input.is_action_pressed("move_back"):
+	if Input.is_action_pressed("move_back"):
 		direction += transform.basis.z
-	if input.is_action_pressed("move_left"):
+	if Input.is_action_pressed("move_left"):
 		direction -= transform.basis.x
-	if input.is_action_pressed("move_right"):
+	if Input.is_action_pressed("move_right"):
 		direction += transform.basis.x
 
-	# Handle sprinting and stamina
-	is_sprinting = input.is_action_pressed("sprint") and stamina.can_sprint()
-	stamina.update(delta, is_sprinting)
-	
-	if hud:
-		hud.update_stamina(stamina.current_stamina_percent())
-
-
-	# Normalize direction for consistent movement speed
 	direction = direction.normalized()
+	var is_moving = direction.length() > 0.01
+	var sprint_input = Input.is_action_pressed("sprint")
+
+	# Update stamina before applying sprint
+	stamina.update(delta, sprint_input, is_moving)
+
+	# Sprint if input is held, stamina allows it, and you're moving
+	is_sprinting = sprint_input and stamina.can_sprint() and is_moving
+
+	# Update HUD stamina bar
+	if hud:
+		hud.update_stamina(round(stamina.current_stamina_percent() * 100.0) / 100.0)
+
+	# Determine speed based on sprint state
 	var speed = SPEED * (SPRINT_MULTIPLIER if is_sprinting else 1.0)
 
-	# Update velocity based on input direction
+	# Apply movement
 	velocity.x = direction.x * speed
 	velocity.z = direction.z * speed
 
-	# Apply gravity if not on the ground
+	# Gravity & jumping
 	if not is_on_floor():
 		velocity.y -= 9.8 * delta
-	elif input.is_action_just_pressed("jump"):
+	elif Input.is_action_just_pressed("jump"):
 		velocity.y = JUMP_VELOCITY
 
-	# Move the character
 	move_and_slide()
 
-	# Check if vacuum OR loot action is active
-	if input.is_action_pressed("vacuum") or input.is_action_pressed("loot"):
+	# Vacuum or loot check
+	if Input.is_action_pressed("vacuum") or Input.is_action_pressed("loot"):
 		attempt_vacuum()
+
 
 # Function for vacuum interaction
 func attempt_vacuum():

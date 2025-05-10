@@ -56,7 +56,7 @@ render_target_update_mode = 4
 script = ExtResource("1_x6ack")
 
 [node name="SubViewportContainerHUD" type="SubViewportContainer" parent="."]
-anchors_preset = -1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -89,7 +89,7 @@ offset_top = 5.0
 offset_right = 627.0
 offset_bottom = 32.0
 mouse_filter = 2
-fill_mode = 2
+fill_mode = 3
 
 [node name="MoneyLabel" type="Label" parent="SubViewportContainerHUD/HUDViewport/HUD"]
 offset_left = 1.0
@@ -102,4 +102,4 @@ text = "Money: $"
 [node name="EliminationsLabel" type="Label" parent="SubViewportContainerHUD/HUDViewport/HUD"]
 offset_right = 40.0
 offset_bottom = 23.0
-text = "Elims: "
+text = "Eliminations: "

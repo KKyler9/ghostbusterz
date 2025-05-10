@@ -1,10 +1,9 @@
 [gd_scene load_steps=4 format=3 uid="uid://c3ngm346d1lbw"]
 
 [ext_resource type="Script" uid="uid://c7yc81d8hcxgl" path="res://Player/Player.gd" id="1"]
+[ext_resource type="ArrayMesh" uid="uid://dum1r82wleiyl" path="res://Test Objects/A_cute_hooded_elf_lik_0509205436_texture_obj/A_cute_hooded_elf_lik_0509205436_texture_obj/A_cute_hooded_elf_lik_0509205436_texture.obj" id="2_q3lat"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3qydi"]
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_q3lat"]
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1")
@@ -13,7 +12,8 @@ script = ExtResource("1")
 shape = SubResource("CapsuleShape3D_3qydi")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("CapsuleMesh_q3lat")
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.150213, 0.0392895, 0.18356)
+mesh = ExtResource("2_q3lat")
 
 [node name="Head" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.642482, -0.482258)

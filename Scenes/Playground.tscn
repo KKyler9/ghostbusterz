@@ -23,9 +23,6 @@ debug_fill = false
 transform = Transform3D(44.7309, 0, 0, 0, 1, 0, 0, 0, 52.1913, 0, 0, 0)
 mesh = SubResource("PlaneMesh_iualk")
 
-[node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.2947, 0)
-
 [node name="GhostSpawner" parent="." instance=ExtResource("2_exwnq")]
 transform = Transform3D(19.684, 0, 0, 0, 1, 0, 0, 0, 23.9085, 0, 0, 0)
 
@@ -41,6 +38,7 @@ spot_range = 14.2239
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -0.948506, 0.316758, 0, -0.316758, -0.948506, 0, 13.3688, 0)
+visible = false
 
 [node name="LootableSpawner" parent="." instance=ExtResource("4_a4k3g")]
 transform = Transform3D(1.21, 0, 0, 0, 1.21, 0, 0, 0, 1.21, 0, 0, 0)

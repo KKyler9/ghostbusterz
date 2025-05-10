@@ -1,20 +1,20 @@
 [gd_scene load_steps=4 format=3 uid="uid://dwvc3rrjy7tih"]
 
 [ext_resource type="Script" uid="uid://cijxve4so3vi2" path="res://Scripts/Ghost.gd" id="1"]
+[ext_resource type="ArrayMesh" uid="uid://cb0yt76abv48s" path="res://Test Objects/Render_me_a_spirit_gh_0510005235_texture_obj/Render_me_a_spirit_gh_0510005235_texture.obj" id="2_rcd3j"]
 
-[sub_resource type="SphereShape3D" id="1"]
-
-[sub_resource type="SphereMesh" id="2"]
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_hmvil"]
+points = PackedVector3Array(-0.195428, -0.196452, -0.359172, 0.28932, 0.652019, 0.58045, 0.25915, 0.652019, 0.58045, -0.0741946, -0.923956, -0.177344, -0.437986, 0.591631, 0.519777, 0.0771167, 0.955099, 0.0651579, 0.410737, -0.166068, -0.237922, -0.528956, 0.379134, -0.0258039, 0.168179, -0.468957, 0.186314, -0.347015, -0.226646, 0.246987, 0.228704, -0.711649, -0.328883, -0.0741946, 0.985483, 0.307565, 0.380383, 0.712597, 0.459104, 0.410737, -0.10549, 0.0954469, -0.0741946, -0.0145278, -0.359172, -0.104549, 0.955099, 0.0651579, -0.437986, -0.135684, -0.0560929, -0.437986, 0.773175, 0.368237, -0.377369, 0.0460501, -0.268306, -0.407631, 0.561057, 0.550066, 0.410737, -0.0751058, -0.237922, -0.104549, -0.923956, -0.207633, 0.0468544, -0.560109, -0.389556, 0.350029, 0.712597, 0.277181, 0.319767, -0.257029, 0.186314, -0.528956, 0.257978, 0.0348689, -0.498602, 0.561057, 0.0348689, -0.134811, -0.560109, 0.125736, -0.377369, -0.10549, -0.268306, -0.377369, 0.167016, -0.237922, 0.0165002, 0.439902, -0.177344, -0.407631, 0.621635, 0.550066)
 
 [node name="Ghost" type="CharacterBody3D" groups=["Ghost"]]
 collision_layer = 2
 script = ExtResource("1")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("1")
+shape = SubResource("ConvexPolygonShape3D_hmvil")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("2")
+mesh = ExtResource("2_rcd3j")
 
 [node name="SpotLight3D" type="SpotLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
