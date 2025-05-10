@@ -96,6 +96,7 @@ func _physics_process(delta):
 	input_dir = input_dir.normalized()
 
 	# Sprinting logic
+
     var sprint_input = Input.is_action_pressed("sprint")
 	is_sprinting = sprint_input and stamina.can_sprint()
 	var target_speed = SPEED * (SPRINT_MULTIPLIER if is_sprinting else 1.0)
