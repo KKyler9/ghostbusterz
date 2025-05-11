@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://cxdifi0pjax3q"]
+
+[ext_resource type="Script" uid="uid://b0jkvftv8wrim" path="res://Weapon/Weapon.gd" id="1_4447s"]
+[ext_resource type="ArrayMesh" uid="uid://c0h040cb45u5l" path="res://Weapon/render_me_a_vacuum_ty_0510004519_texture_obj/render_me_a_vacuum_ty_0510004519_texture_obj/render_me_a_vacuum_ty_0510004519_texture.obj" id="1_lfpbp"]
+
+[node name="Weapon01" type="Node3D"]
+script = ExtResource("1_4447s")
+
+[node name="WeaponMesh" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_lfpbp")

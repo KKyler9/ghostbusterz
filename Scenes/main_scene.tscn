@@ -67,7 +67,7 @@ stretch = true
 transparent_bg = true
 handle_input_locally = false
 size = Vector2i(640, 480)
-render_target_update_mode = 0
+render_target_update_mode = 4
 
 [node name="HUD" type="CanvasLayer" parent="SubViewportContainerHUD/HUDViewport"]
 script = ExtResource("4_iacmt")
