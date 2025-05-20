@@ -14,6 +14,11 @@ config/name="GhostBusterZxc"
 run/main_scene="res://MainMenu/MainMenu.tscn"
 config/features=PackedStringArray("4.5", "Forward Plus")
 
+[autoload]
+
+LoadoutManager="*res://Scripts/LoadoutManager.gd"
+UpgradeManager="*res://Scripts/UpgradeManager.gd"
+
 [display]
 
 window/size/viewport_width=640

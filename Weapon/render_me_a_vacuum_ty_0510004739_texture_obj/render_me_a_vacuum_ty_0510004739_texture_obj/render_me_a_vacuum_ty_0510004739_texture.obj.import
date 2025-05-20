@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://wlxb4iapbo46"
+path="res://.godot/imported/render_me_a_vacuum_ty_0510004739_texture.obj-f6d706c6e1f69823b06de723f98fe154.mesh"
+
+[deps]
+
+files=["res://.godot/imported/render_me_a_vacuum_ty_0510004739_texture.obj-f6d706c6e1f69823b06de723f98fe154.mesh"]
+
+source_file="res://Weapon/render_me_a_vacuum_ty_0510004739_texture_obj/render_me_a_vacuum_ty_0510004739_texture_obj/render_me_a_vacuum_ty_0510004739_texture.obj"
+dest_files=["res://.godot/imported/render_me_a_vacuum_ty_0510004739_texture.obj-f6d706c6e1f69823b06de723f98fe154.mesh", "res://.godot/imported/render_me_a_vacuum_ty_0510004739_texture.obj-f6d706c6e1f69823b06de723f98fe154.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false
