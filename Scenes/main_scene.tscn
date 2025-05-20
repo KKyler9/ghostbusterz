@@ -93,13 +93,36 @@ fill_mode = 3
 
 [node name="MoneyLabel" type="Label" parent="SubViewportContainerHUD/HUDViewport/HUD"]
 offset_left = 1.0
-offset_top = 22.0
+offset_top = 74.0
 offset_right = 72.0
-offset_bottom = 45.0
+offset_bottom = 97.0
 scale = Vector2(0.563029, 0.807066)
-text = "Money: $"
+text = "$"
 
-[node name="EliminationsLabel" type="Label" parent="SubViewportContainerHUD/HUDViewport/HUD"]
+[node name="CapturesLabel" type="Label" parent="SubViewportContainerHUD/HUDViewport/HUD"]
+offset_top = 51.0
+offset_right = 40.0
+offset_bottom = 74.0
+text = "Captures:"
+
+[node name="GhostInventoryLabel" type="Label" parent="SubViewportContainerHUD/HUDViewport/HUD"]
 offset_right = 40.0
 offset_bottom = 23.0
-text = "Eliminations: "
+text = "Ghosts:"
+
+[node name="TreasureInventoryLabel" type="Label" parent="SubViewportContainerHUD/HUDViewport/HUD"]
+offset_left = 1.0
+offset_top = 25.0
+offset_right = 41.0
+offset_bottom = 48.0
+text = "Treasure:"
+
+[node name="QuestLabel" type="Label" parent="SubViewportContainerHUD/HUDViewport/HUD"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "Ghost Collected:"
