@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://bpwmayi8hq7hj"]
 
-[ext_resource type="Script" uid="uid://xonkabetrb3" path="res://Loot/LootableSpawner.gd" id="1_a4npx"]
+[ext_resource type="Script" uid="uid://xonkabetrb3" path="res://Scripts/LootableSpawner.gd" id="1_a4npx"]
 [ext_resource type="PackedScene" uid="uid://0yakp518v4jt" path="res://Loot/Coin.tscn" id="2_yo1t0"]
 [ext_resource type="PackedScene" uid="uid://bbttg2myndi1u" path="res://Loot/Trophy_1.tscn" id="3_nkpe7"]
 [ext_resource type="PackedScene" uid="uid://bivxr4f4cpmm6" path="res://Loot/Trophy_2.tscn" id="4_hkwm2"]

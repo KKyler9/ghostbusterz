@@ -4,8 +4,8 @@ extends CharacterBody3D
 @export var float_speed := 0.1  # Speed at which the ghost floats up and down
 @export var float_range := 0.5  # How high or low the ghost can float
 @export var move_speed := 1.0  # Speed at which the ghost moves randomly
-@export var ghost_type: String = "ghost"  # Type of Ghost (used for quests and inventory)
-@export var drops: Array[String] = ["ectoplasm"]  # Materials dropped when deposited (can expand for crafting)
+@export var ghost_type: String = "banshee"  # Type of Ghost (used for quests and inventory)
+@export var drops: Array[String] = ["dust"]  # Materials dropped when deposited (can expand for crafting)
 
 # === Internal State ===
 var original_y := 0.0

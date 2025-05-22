@@ -6,7 +6,7 @@ extends CharacterBody3D
 @onready var flashlight = $Head/Camera/SpotLight3D
 @onready var vacuum_ray = $"Head/Camera/Camera#VacuumRay"
 @onready var weapon_holder = $Head/Camera/WeaponHolder
-@onready var stamina = preload("res://Player/Stamina.gd").new()
+@onready var stamina = preload("res://Scripts/Stamina.gd").new()
 
 # === Exported ===
 @export var weapon: Node
@@ -16,8 +16,6 @@ const BASE_SPEED := 5.0
 const SPRINT_MULTIPLIER := 3.0
 const JUMP_VELOCITY := 5.5
 const MOUSE_SENSITIVITY := 0.1
-const CROUCH_MULTIPLIER := 0.5  # Unused for now
-const SLIDE_DURATION := 0.6     # Unused for now
 const GRAVITY := 14.0
 const FALL_MULTIPLIER := 2.5
 const ACCELERATION := 16.0
@@ -35,39 +33,32 @@ var is_sliding := false
 var slide_timer := 0.0
 
 # === Inventory ===
-var ghost_inventory := 0
+var ghost_inventory: Array = []  # Stores ghost data dictionaries (captured ghost info)
 var treasure_inventory := 0
 var max_ghost_capacity := 3
 var max_treasure_capacity := 3
 
 # === Persistent Progress ===
 var money := 0
-var captures := 0
-var ghost_goal := 6
+var materials: Dictionary = {}  # Track materials if needed for crafting/upgrades
 
-# === Lifecycle ===
 func _ready():
 	add_to_group("Player")
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	flashlight.visible = false
-	
+
 	hud = get_tree().root.get_node("MainScene/SubViewportContainerHUD/HUDViewport/HUD")
 
-	# Spawn and apply weapon
 	spawn_weapon()
-	
-	# Apply upgrades
 	apply_upgrades()
 
-	# Reset HUD
+	# Initialize HUD with current inventory and progress
 	if hud:
-		hud.update_ghost_inventory(ghost_inventory, max_ghost_capacity)
+		hud.update_ghost_inventory(ghost_inventory.size(), max_ghost_capacity)
 		hud.update_treasure_inventory(treasure_inventory, max_treasure_capacity)
 		hud.update_money(money)
-		hud.update_captures(captures)
-		hud.update_quest_progress(captures, ghost_goal)
 
-# === Weapon Setup ===
+# --- Weapon Setup ---
 func spawn_weapon():
 	var weapon_instance = LoadoutManager.get_selected_weapon_instance()
 	if weapon_instance and weapon_holder:
@@ -81,7 +72,7 @@ func spawn_weapon():
 	else:
 		push_warning("No valid weapon instance returned by LoadoutManager.")
 
-# === Upgrades ===
+# --- Upgrades ---
 func apply_upgrades():
 	var upgrade_manager = get_node_or_null("/root/UpgradeManager")
 	if upgrade_manager:
@@ -90,7 +81,7 @@ func apply_upgrades():
 	if weapon:
 		weapon.apply_upgrades()
 
-# === Input ===
+# --- Input Handling ---
 func _unhandled_input(event):
 	if event is InputEventMouseMotion:
 		yaw -= event.relative.x * MOUSE_SENSITIVITY
@@ -107,7 +98,7 @@ func _unhandled_input(event):
 		elif event.button_index == MOUSE_BUTTON_RIGHT and Input.is_action_pressed("loot"):
 			attempt_vacuum()
 
-# === Movement & Physics ===
+# --- Movement & Physics ---
 func _physics_process(delta):
 	var input_dir = Vector3.ZERO
 	if Input.is_action_pressed("move_forward"):
@@ -128,7 +119,6 @@ func _physics_process(delta):
 
 	stamina.update(delta, is_sprinting, is_moving)
 
-	# Horizontal movement
 	if input_dir == Vector3.ZERO:
 		velocity.x = move_toward(velocity.x, 0, DECELERATION * delta)
 		velocity.z = move_toward(velocity.z, 0, DECELERATION * delta)
@@ -136,7 +126,6 @@ func _physics_process(delta):
 		velocity.x = move_toward(velocity.x, target_velocity.x, ACCELERATION * delta)
 		velocity.z = move_toward(velocity.z, target_velocity.z, ACCELERATION * delta)
 
-	# Vertical movement / gravity
 	if is_on_floor():
 		if Input.is_action_just_pressed("jump"):
 			velocity.y = JUMP_VELOCITY
@@ -150,11 +139,10 @@ func _physics_process(delta):
 
 	move_and_slide()
 
-	# Update HUD stamina
 	if hud:
 		hud.update_stamina(round(stamina.current_stamina_percent() * 100.0) / 100.0)
 
-# === Vacuuming (Loot & Ghosts) ===
+# --- Vacuuming (Loot & Ghosts) ---
 func attempt_vacuum():
 	if not weapon:
 		push_warning("No weapon assigned to player.")
@@ -164,11 +152,13 @@ func attempt_vacuum():
 		var target = vacuum_ray.get_collider()
 		print("Ray hit: ", target)
 
+		# Walk up parent chain to find node with vacuumed() method and correct group
 		var parent = target
 		while parent and not (parent.has_method("vacuumed") and (parent.is_in_group("Ghost") or parent.is_in_group("Loot"))):
 			parent = parent.get_parent()
 
 		if parent:
+			# Handle treasure loot vacuuming
 			if Input.is_action_pressed("loot") and parent.is_in_group("Loot"):
 				if treasure_inventory < weapon.max_treasure_capacity:
 					add_treasure(parent.value)
@@ -176,19 +166,25 @@ func attempt_vacuum():
 				else:
 					print("Treasure capacity reached!")
 
+			# Handle ghost vacuuming: add ghost *data* to inventory, free ghost node
 			elif Input.is_action_pressed("vacuum") and parent.is_in_group("Ghost"):
-				if ghost_inventory < weapon.max_ghost_capacity:
-					add_ghost()
-					parent.vacuumed()
+				if ghost_inventory.size() < weapon.max_ghost_capacity:
+					add_ghost_data_from_node(parent)
 				else:
 					print("Ghost capacity reached!")
 
-# === Inventory Management ===
-func add_ghost():
-	if ghost_inventory < max_ghost_capacity:
-		ghost_inventory += 1
-		if hud:
-			hud.update_ghost_inventory(ghost_inventory, max_ghost_capacity)
+# --- Inventory Management ---
+# Add ghost data dictionary returned from ghost node's vacuumed()
+func add_ghost_data_from_node(ghost_node: Node):
+	if ghost_inventory.size() < max_ghost_capacity:
+		var ghost_data = ghost_node.vacuumed()
+		if ghost_data != null:
+			ghost_inventory.append(ghost_data)
+			if hud:
+				hud.update_ghost_inventory(ghost_inventory.size(), max_ghost_capacity)
+			print("Added ghost data to inventory:", ghost_data)
+		else:
+			print("Failed to get ghost data or ghost already captured.")
 
 func add_treasure(value: int):
 	if treasure_inventory < max_treasure_capacity:
@@ -196,17 +192,17 @@ func add_treasure(value: int):
 		if hud:
 			hud.update_treasure_inventory(treasure_inventory, max_treasure_capacity)
 
-# === End-of-Round Handling ===
-func drop_items():
-	captures += ghost_inventory
-	money += treasure_inventory * 200
+# --- Deposit Items to Depot ---
+func deposit_to_depot(depot_area):
+	if depot_area:
+		depot_area.drop_items(self)
 
-	ghost_inventory = 0
+# --- Clear Inventory (after deposit or reset) ---
+func clear_inventory():
+	# Ghost nodes are freed immediately on vacuum, so just clear data list here
+	ghost_inventory.clear()
 	treasure_inventory = 0
 
 	if hud:
-		hud.update_money(money)
-		hud.update_captures(captures)
-		hud.update_quest_progress(captures, ghost_goal)
-		hud.update_ghost_inventory(ghost_inventory, max_ghost_capacity)
+		hud.update_ghost_inventory(ghost_inventory.size(), max_ghost_capacity)
 		hud.update_treasure_inventory(treasure_inventory, max_treasure_capacity)

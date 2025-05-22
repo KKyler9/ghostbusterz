@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://dg5qfanvwqnuc"]
 
 [ext_resource type="PackedScene" uid="uid://dx5uv30861feo" path="res://Scenes/Playground.tscn" id="1_jv6wh"]
-[ext_resource type="Script" uid="uid://bko6jerk2s7ac" path="res://Scenes/world.gd" id="1_x6ack"]
+[ext_resource type="Script" uid="uid://bko6jerk2s7ac" path="res://Scripts/world.gd" id="1_x6ack"]
 [ext_resource type="Shader" uid="uid://c438h3sqhw2eg" path="res://Scripts/PS1PSXPostProcess.gdshader" id="2_x6ack"]
 [ext_resource type="Shader" uid="uid://c5ginanrqk2jr" path="res://Scripts/CRTShader.gdshader" id="3_iacmt"]
 [ext_resource type="Script" uid="uid://dk8bpex46o4kw" path="res://Scripts/HUD.gd" id="4_iacmt"]
@@ -99,12 +99,6 @@ offset_bottom = 97.0
 scale = Vector2(0.563029, 0.807066)
 text = "$"
 
-[node name="CapturesLabel" type="Label" parent="SubViewportContainerHUD/HUDViewport/HUD"]
-offset_top = 51.0
-offset_right = 40.0
-offset_bottom = 74.0
-text = "Captures:"
-
 [node name="GhostInventoryLabel" type="Label" parent="SubViewportContainerHUD/HUDViewport/HUD"]
 offset_right = 40.0
 offset_bottom = 23.0
@@ -117,7 +111,7 @@ offset_right = 41.0
 offset_bottom = 48.0
 text = "Treasure:"
 
-[node name="QuestLabel" type="Label" parent="SubViewportContainerHUD/HUDViewport/HUD"]
+[node name="QuestProgressLabel" type="Label" parent="SubViewportContainerHUD/HUDViewport/HUD"]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -125,4 +119,3 @@ offset_left = -20.0
 offset_right = 20.0
 offset_bottom = 23.0
 grow_horizontal = 2
-text = "Ghost Collected:"
