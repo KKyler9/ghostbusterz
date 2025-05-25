@@ -63,6 +63,7 @@ points = PackedVector3Array(-0.507936, -0.0580256, -0.0951635, 0.479896, 0.05, 0
 [node name="Coin" type="Node3D" groups=["Loot"]]
 script = ExtResource("2_6t4a5")
 value = 1
+loot_name = "Coin"
 
 [node name="Coin" type="MeshInstance3D" parent="."]
 transform = Transform3D(0, 1, 0, -1, 0, 0, 0, 0, 1, 0, 0, 0)

@@ -135,6 +135,7 @@ points = PackedVector3Array(-0.111798, -0.534633, 0.740983, -0.288523, -0.298515
 
 [node name="Trophy3" type="Node3D" groups=["Loot"]]
 script = ExtResource("1_gbx23")
+loot_name = "BronzeTrophy"
 
 [node name="03" type="Node3D" parent="."]
 

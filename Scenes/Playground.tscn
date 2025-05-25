@@ -12,7 +12,7 @@
 [node name="Playground" type="Node3D"]
 
 [node name="SpawnPoint" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.26578, 3.0232)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.96321, 1.74602)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 
@@ -21,14 +21,14 @@ shape = SubResource("WorldBoundaryShape3D_xtv6o")
 debug_fill = false
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
-transform = Transform3D(44.7309, 0, 0, 0, 1, 0, 0, 0, 52.1913, 0, 0, 0)
+transform = Transform3D(44.7309, 0, 0, 0, 1, 0, 0, 0, 52.1913, 0, -0.494949, 0)
 mesh = SubResource("PlaneMesh_iualk")
 
 [node name="GhostSpawner" parent="." instance=ExtResource("2_exwnq")]
 transform = Transform3D(19.684, 0, 0, 0, 1, 0, 0, 0, 23.9085, 0, 0, 0)
 
 [node name="HouseTest" parent="." instance=ExtResource("3_eqbnc")]
-transform = Transform3D(-0.225538, 0, 8.74709, 0, 8.75, 0, -8.74709, 0, -0.225538, 66.2572, -0.749727, 23.9454)
+transform = Transform3D(-0.225537, 0, 8.74709, 0, 8.75, 0, -8.74709, 0, -0.225537, 66.257, -0.286083, 23.945)
 
 [node name="SpotLight3D" type="SpotLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.021431, 0.99977, 0, -0.99977, 0.021431, 47.3089, 7.06206, -1.23733)
@@ -45,4 +45,4 @@ visible = false
 transform = Transform3D(1.21, 0, 0, 0, 1.21, 0, 0, 0, 1.21, 0, 0, 0)
 
 [node name="DepotArea" parent="." instance=ExtResource("4_npy7o")]
-transform = Transform3D(0.00952069, 0, -2.292, 0, 2.48175, 0, 2.88625, 0, 0.00756051, 41.8152, 0.200446, 16.2366)
+transform = Transform3D(0.00952069, 0, -2.292, 0, 2.48175, 0, 2.88625, 0, 0.00756051, 41.815, 1.22536, 16.237)

@@ -1,3 +1,4 @@
+# HUD.gd
 extends CanvasLayer
 
 @onready var stamina_bar: ProgressBar = $StaminaBar
@@ -15,6 +16,7 @@ func update_money(amount: int):
 func update_ghost_inventory(current: int, max: int):
 	ghost_inventory_label.text = "Ghosts: %d/%d" % [current, max]
 
+# THIS IS CORRECT FOR DISPLAYING TREASURE COUNT
 func update_treasure_inventory(current: int, max: int):
 	treasure_inventory_label.text = "Treasure: %d/%d" % [current, max]
 
@@ -36,7 +38,8 @@ func update_quest_progress(current: Dictionary, goal: Dictionary):
 			display_key += " (any type)"
 		text += "- %s: %d/%d\n" % [display_key, cur, req]
 
-	if Quest.is_quest_complete():
+	# Assuming Quest is an Autoload (set in Project Settings -> Autoload)
+	if Quest and Quest.is_quest_complete():
 		text += "\n✅ Quest Complete!"
 
 	quest_progress_label.text = text.strip_edges()
@@ -48,11 +51,17 @@ func _ready():
 	if not has_node("QuestProgressLabel"):
 		push_error("QuestProgressLabel node missing!")
 
+	# Assuming Quest is an Autoload (set in Project Settings -> Autoload)
 	if Quest and not Quest.is_connected("progress_updated", Callable(self, "update_quest_progress")):
 		Quest.connect("progress_updated", Callable(self, "update_quest_progress"))
 
-	update_quest_progress(Quest.progress, Quest.current_quest)
+	# Initial update for quest progress
+	if Quest:
+		update_quest_progress(Quest.progress, Quest.current_quest)
+	else:
+		push_warning("Quest Autoload not found!")
 
-	# Initialize inventory labels with zero values
-	update_ghost_inventory(0, 10)  # replace 10 with max ghost capacity if you have it
-	update_treasure_inventory(0, 10)  # replace 10 with max treasure capacity
+	# Initialize inventory labels (use Player's max capacities if known, or sensible defaults)
+	# You might want to get these from the Player script instead of hardcoding
+	update_ghost_inventory(0, 3) # Assuming Player.max_ghost_capacity is 3
+	update_treasure_inventory(0, 3) # Assuming Player.max_treasure_capacity is 3
